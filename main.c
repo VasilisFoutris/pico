@@ -118,22 +118,32 @@ int check_auth(Line users[], char *auth_header) {
       break;
     }
   }
-
+  
+  fprintf(stderr, "\n-----\n\n");
+  fprintf(stderr, password_md5);
   // check if user is found
   if(password_md5 == NULL) {
     printf("HTTP/1.1 401 Unauthorized\r\n");
     printf("WWW-Authenticate: Basic realm=\"");
     printf("Invalid user: ");
-    printf(auth_username);
+    fprintf(stderr, auth_username);
     printf("\"\r\n\r\n");
 
     free(auth_decoded);
     return 0;
   }
+  fprintf(stderr, "\n-----\n\n");
+  fprintf(stderr, auth_username);
 
   // since we run over http, the user should provide the password encrypted.
   // we decrypt here.
   char *auth_password = decrypt(encryption_key, auth_password_enc);
+  fprintf(stderr, "\n-----\n\n");
+  fprintf(stderr, auth_password_enc );
+  fprintf(stderr, "\nEncoded^\n\n" );
+  fprintf(stderr, auth_password );
+  fprintf(stderr, "\nauth_password^\n" );
+  fprintf(stderr, "\n-----\n");
   fprintf(stderr, "decrypted: %s\n", auth_password);
   if (!auth_password) {
     printf("HTTP/1.1 500 Internal Server Error\r\n");

@@ -132,7 +132,7 @@ void respond(int n) {
   int rcvd, fd, bytes_read;
   char *ptr;
 
-  buf = malloc(65535);
+  buf = (char *) malloc(65535);
   rcvd = recv(clients[n], buf, 65535, 0);
 
   if (rcvd < 0) // receive error
